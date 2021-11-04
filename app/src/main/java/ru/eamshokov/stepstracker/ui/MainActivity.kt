@@ -1,4 +1,4 @@
-package ru.eamshokov.stepstracker
+package ru.eamshokov.stepstracker.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
