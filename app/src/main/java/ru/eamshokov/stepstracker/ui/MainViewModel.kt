@@ -1,9 +1,9 @@
-package ru.eamshokov.stepstracker.ui.screen.activity
+package ru.eamshokov.stepstracker.ui
 
 import androidx.lifecycle.ViewModel
 import dagger.hilt.android.lifecycle.HiltViewModel
 import javax.inject.Inject
 
 @HiltViewModel
-class ActivityViewModel @Inject constructor(): ViewModel() {
+class MainViewModel @Inject constructor(): ViewModel() {
 }
