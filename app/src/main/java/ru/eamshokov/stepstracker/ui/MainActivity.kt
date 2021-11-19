@@ -93,7 +93,6 @@ fun BottomNav(pages: List<MainScreenPage>, navController: NavController) {
                                 launchSingleTop = true
                                 // Restore state when reselecting a previously selected item
                                 restoreState = true
-
                             }
                         },
                         icon = {
