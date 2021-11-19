@@ -11,5 +11,5 @@ fun RegisterView(
     navController: NavController,
     viewModel:RegisterViewModel = viewModel(),
     modifier: Modifier = Modifier()){
-    Text("register")
+
 }
