@@ -5,34 +5,57 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
+import ru.eamshokov.domain.LoginUsecase
 import javax.inject.Inject
 
 @HiltViewModel
-class LoginViewModel @Inject constructor(): ViewModel() {
+class LoginViewModel @Inject constructor(
+    private val loginUsecase: LoginUsecase
+): ViewModel() {
+      val username = MutableStateFlow("")
+      val password = MutableStateFlow("")
 
-    val username = MutableStateFlow("")
-    val password = MutableStateFlow("")
+      private val _error = MutableStateFlow<ErrorState>(ErrorState.NoErrors)
+      val error:StateFlow<ErrorState>
+          get() = _error.asStateFlow()
 
-    private val _error = MutableStateFlow<ErrorState>(ErrorState.NoErrors)
-    val error:StateFlow<ErrorState>
-        get() = _error.asStateFlow()
-
-    private val _loginResult = MutableSharedFlow<Boolean>()
-    val loginResult: SharedFlow<Boolean>
+      private val _loginResult = MutableSharedFlow<Boolean>()
+      val loginResult: SharedFlow<Boolean>
         get() = _loginResult.asSharedFlow()
 
-    fun login(){
+      fun login(){
         viewModelScope.launch {
-            _loginResult.emit(true)
+            if(validate(username.value, password.value)){
+                loginUsecase.login(username.value, password.value)
+                    .catch {
+                        _loginResult.emit(false)
+                        _error.value = ErrorState.LoginError
+                    }
+                    .collect {
+                        _loginResult.emit(it)
+                    }
+            }
         }
+      }
+
+    private fun validate(login:String, password:String):Boolean{
+        if(login.isEmpty()){
+            _error.value = ErrorState.UsernameIsEmptyError
+            return false
+        }
+        if(password.isEmpty()){
+            _error.value = ErrorState.PasswordIsEmptyError
+            return false
+        }
+        return true
     }
 
-    sealed class ErrorState(
+      sealed class ErrorState(
         val message: String
-    ){
-        class UsernameError(message:String): ErrorState(message)
-        class PasswordError(message:String): ErrorState(message)
-        class LoginError(message:String): ErrorState(message)
+      ){
+        object UsernameIsEmptyError: ErrorState("Name must not be empty")
+        object PasswordIsEmptyError: ErrorState("Password must not be empty")
+        object LoginError: ErrorState("Name or password are incorrect")
         object NoErrors:ErrorState("")
-    }
+      }
 }
