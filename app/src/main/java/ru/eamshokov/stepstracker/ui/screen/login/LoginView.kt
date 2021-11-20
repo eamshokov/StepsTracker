@@ -18,38 +18,40 @@ import kotlinx.coroutines.flow.collect
 fun LoginView(
     navController: NavController,
     modifier: Modifier = Modifier,
-    viewModel:LoginViewModel = viewModel(),
-){
+    viewModel: LoginViewModel = viewModel(),
+) {
     val username: String by viewModel.username.collectAsState()
     val password: String by viewModel.password.collectAsState()
     val result = viewModel.loginResult.collectAsState(false)
     val error = viewModel.error.collectAsState()
-    if(result.value){
-        navController.navigate("activity"){
+    if (result.value) {
+        navController.navigate("activity") {
             launchSingleTop = true
         }
     }
-    Column(modifier = modifier
-        .fillMaxSize()
-        .padding(16.dp, 0.dp),
+    Column(
+        modifier = modifier
+            .fillMaxSize()
+            .padding(16.dp, 0.dp),
         verticalArrangement = Arrangement.Center,
 
-    ){
-        Column(Modifier.padding(0.dp, 8.dp)){
+        ) {
+        Column(Modifier.padding(0.dp, 8.dp)) {
             OutlinedTextField(
                 modifier = Modifier
                     .fillMaxWidth(),
                 label = { Text("Name") },
                 value = username,
-                isError = error.value is LoginViewModel.ErrorState.UsernameError,
+                isError = error.value is LoginViewModel.ErrorState.UsernameIsEmptyError,
                 onValueChange = {
                     viewModel.username.value = it
                 })
-            if(error.value is LoginViewModel.ErrorState.UsernameError){
+            if (error.value is LoginViewModel.ErrorState.UsernameIsEmptyError) {
                 Text(
                     text = error.value.message,
                     color = Color.Red,
-                    fontSize = 12.sp)
+                    fontSize = 12.sp
+                )
             }
         }
         Column(modifier = Modifier.padding(0.dp, 8.dp)) {
@@ -58,19 +60,27 @@ fun LoginView(
                 value = password,
                 label = { Text("Password") },
                 onValueChange = {
-                        viewModel.password.value = it
+                    viewModel.password.value = it
                 },
-                isError = error.value is LoginViewModel.ErrorState.PasswordError,
+                isError = error.value is LoginViewModel.ErrorState.PasswordIsEmptyError,
                 visualTransformation = PasswordVisualTransformation()
             )
-            if(error.value is LoginViewModel.ErrorState.PasswordError){
+            if (error.value is LoginViewModel.ErrorState.PasswordIsEmptyError) {
                 Text(
                     text = error.value.message,
                     color = Color.Red,
-                    fontSize = 12.sp)
+                    fontSize = 12.sp
+                )
             }
         }
-
+        if (error.value is LoginViewModel.ErrorState.LoginError) {
+            Text(
+                modifier = Modifier.padding(0.dp, 8.dp),
+                text = error.value.message,
+                color = Color.Red,
+                fontSize = 12.sp
+            )
+        }
         Button(
             modifier = modifier
                 .padding(0.dp, 8.dp)
