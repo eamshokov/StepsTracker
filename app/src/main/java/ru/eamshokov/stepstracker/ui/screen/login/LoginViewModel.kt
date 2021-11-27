@@ -5,7 +5,7 @@ import androidx.lifecycle.viewModelScope
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
 import kotlinx.coroutines.launch
-import ru.eamshokov.domain.LoginUsecase
+import ru.eamshokov.domain.uiinteractor.LoginUsecase
 import javax.inject.Inject
 
 @HiltViewModel
@@ -27,12 +27,11 @@ class LoginViewModel @Inject constructor(
         viewModelScope.launch {
             if(validate(username.value, password.value)){
                 loginUsecase.login(username.value, password.value)
-                    .catch {
-                        _loginResult.emit(false)
-                        _error.value = ErrorState.LoginError
-                    }
                     .collect {
                         _loginResult.emit(it)
+                        if(!it){
+                            _error.value = ErrorState.LoginError
+                        }
                     }
             }
         }

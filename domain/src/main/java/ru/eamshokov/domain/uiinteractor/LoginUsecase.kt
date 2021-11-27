@@ -1,4 +1,4 @@
-package ru.eamshokov.domain
+package ru.eamshokov.domain.uiinteractor
 
 import kotlinx.coroutines.flow.Flow
 
