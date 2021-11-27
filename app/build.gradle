@@ -67,6 +67,7 @@ dependencies {
 
     testImplementation 'junit:junit:4.+'
     testImplementation "org.mockito:mockito-core:3.3.3"
+    testImplementation "org.mockito.kotlin:mockito-kotlin:4.0.0"
     testImplementation 'androidx.arch.core:core-testing:2.1.0'
     testImplementation 'org.jetbrains.kotlinx:kotlinx-coroutines-test:1.5.1'
     testImplementation 'app.cash.turbine:turbine:0.7.0'

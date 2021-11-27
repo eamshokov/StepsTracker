@@ -4,14 +4,13 @@ import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
+import ru.eamshokov.data.UserStorageImpl
 import ru.eamshokov.domain.datainteractor.UserStorage
-import ru.eamshokov.domain.uiinteractor.LoginUsecase
-import ru.eamshokov.domain.implementation.LoginUsecaseImpl
 
 @Module
 @InstallIn(ViewModelComponent::class)
-class UsecasesModule {
+class StoragesModule {
 
     @Provides
-    fun provideLoginUsecase(userStorage: UserStorage): LoginUsecase = LoginUsecaseImpl(userStorage)
+    fun provideUserStorage():UserStorage = UserStorageImpl()
 }
