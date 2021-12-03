@@ -1,11 +1,15 @@
 package ru.eamshokov.data
 
+import ru.eamshokov.data.database.dao.UsersDao
+import ru.eamshokov.data.mappers.toUser
 import ru.eamshokov.domain.datainteractor.UserStorage
 import ru.eamshokov.domain.entity.User
 
-class UserStorageImpl : UserStorage {
+class UserStorageImpl(
+    private val usersDao: UsersDao
+) : UserStorage {
+
     override suspend fun getUser(login: String, password: String): User? {
-        return if(login == "login" && password=="password") User(0, login, password)
-        else null
+        return usersDao.getUser(login, password)?.toUser()
     }
 }
