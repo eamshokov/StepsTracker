@@ -5,6 +5,7 @@ import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.android.components.ViewModelComponent
 import ru.eamshokov.data.UserStorageImpl
+import ru.eamshokov.data.database.dao.UsersDao
 import ru.eamshokov.domain.datainteractor.UserStorage
 
 @Module
@@ -12,5 +13,5 @@ import ru.eamshokov.domain.datainteractor.UserStorage
 class StoragesModule {
 
     @Provides
-    fun provideUserStorage():UserStorage = UserStorageImpl()
+    fun provideUserStorage(usersDao: UsersDao):UserStorage = UserStorageImpl(usersDao)
 }

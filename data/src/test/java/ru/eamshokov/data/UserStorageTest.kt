@@ -34,11 +34,11 @@ class UserStorageTest {
 
     @Before
     fun setup(){
-        userStorage = UserStorageImpl()
         usersDao = mock {
             on { runBlocking { getUser(loginCorrect, passwordCorrect) }} doReturn userEnity
             on { runBlocking { getUser(loginIncorrect, passwordIncorrect) }} doReturn null
         }
+        userStorage = UserStorageImpl(usersDao)
         Dispatchers.setMain(TestCoroutineDispatcher())
     }
 
