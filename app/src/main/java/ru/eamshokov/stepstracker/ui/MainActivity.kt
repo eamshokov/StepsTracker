@@ -19,6 +19,7 @@ import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.currentBackStackEntryAsState
 import androidx.navigation.compose.rememberNavController
+import dagger.hilt.android.AndroidEntryPoint
 import ru.eamshokov.stepstracker.R
 import ru.eamshokov.stepstracker.ui.screen.activity.ActivityView
 import ru.eamshokov.stepstracker.ui.screen.login.LoginView
@@ -26,6 +27,8 @@ import ru.eamshokov.stepstracker.ui.screen.register.RegisterView
 import ru.eamshokov.stepstracker.ui.screen.statistics.StatisticsView
 import ru.eamshokov.stepstracker.ui.theme.StepsTrackerTheme
 
+
+@AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
