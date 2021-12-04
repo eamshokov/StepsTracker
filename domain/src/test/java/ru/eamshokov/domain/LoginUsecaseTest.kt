@@ -37,7 +37,6 @@ class LoginUsecaseTest {
 
     @Before
     fun setup(){
-        //userStorage = Mockito.mock(UserStorage::class.java)
         userStorage = mock {
             on { runBlocking {  getUser(loginCorrect, passwordCorrect) } }.doReturn(User(0, loginCorrect, passwordCorrect))
             on { runBlocking { getUser(loginIncorrect, passwordIncorrect) }}.doReturn(null)
