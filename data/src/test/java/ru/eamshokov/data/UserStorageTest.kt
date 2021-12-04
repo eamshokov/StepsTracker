@@ -28,7 +28,7 @@ class UserStorageTest {
     private val passwordIncorrect = "password1234"
 
     val resultUser = User(0, loginCorrect, passwordCorrect)
-    val userEnity = UserEntity(0, loginCorrect, passwordCorrect)
+    val userEnity = UserEntity( loginCorrect, passwordCorrect, 0)
     private lateinit var usersDao: UsersDao
     private lateinit var userStorage: UserStorage
 
@@ -58,5 +58,15 @@ class UserStorageTest {
     fun test_getUserMustRequestDataFromUserDao() = runBlockingTest {
         userStorage.getUser(loginCorrect, passwordCorrect)
         Mockito.verify(usersDao, times(1)).getUser(loginCorrect, passwordCorrect)
+    }
+
+    @Test
+    fun test_saveUserMustCallUserDao() = runBlockingTest {
+        userStorage.saveUser(loginCorrect, passwordCorrect)
+        Mockito.verify(usersDao, times(1)).insertUser(UserEntity(
+            loginCorrect,
+            passwordCorrect,
+            0
+        ))
     }
 }
