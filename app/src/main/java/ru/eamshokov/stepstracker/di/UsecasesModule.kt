@@ -15,8 +15,10 @@ import ru.eamshokov.domain.uiinteractor.RegisterUsecase
 class UsecasesModule {
 
     @Provides
-    fun provideLoginUsecase(userStorage: UserStorage): LoginUsecase = LoginUsecaseImpl(userStorage)
+    fun provideLoginUsecase(userStorage: UserStorage): LoginUsecase =
+        LoginUsecaseImpl(userStorage)
 
     @Provides
-    fun provideRegisterUsecase():RegisterUsecase = RegisterUsecaseImpl()
+    fun provideRegisterUsecase(userStorage: UserStorage):RegisterUsecase =
+        RegisterUsecaseImpl(userStorage)
 }

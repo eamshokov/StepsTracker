@@ -14,4 +14,5 @@ class StoragesModule {
 
     @Provides
     fun provideUserStorage(usersDao: UsersDao):UserStorage = UserStorageImpl(usersDao)
+
 }
